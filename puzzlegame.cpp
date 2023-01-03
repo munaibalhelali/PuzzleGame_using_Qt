@@ -6,16 +6,27 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <opencv4/opencv2/opencv.hpp>
+#include <ui_puzzlegame.h>
+#include <startdialog.h>
+#include <QApplication>
 
 PuzzleGame::PuzzleGame(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), ui(new Ui::PuzzleGame)
 {
+    ui->setupUi(this);
+
+
     boardW = 3;
     boardH = 3;
     emptySymbol = QString("");
     this->setFixedSize(500, 600);
-    mainVLayout = new QVBoxLayout(this);
+//    mainVLayout = new QVBoxLayout(this);
+    mainVLayout = ui->gameVerticalLayout;
     createBoard();
+
+    //connect startOverButton
+    connect(ui->startOverButton, &QPushButton::clicked, this, &PuzzleGame::startOver);
+    bestScore = 1000000;
 
 }
 
@@ -38,6 +49,8 @@ void PuzzleGame::play(int row, int column)
         QString temp = buttons[row][column]->text();
         buttons[row][column]->setText(emptyButton->text());
         emptyButton->setText(temp);
+        QString count = ui->movesNumberLabel->text();
+        ui->movesNumberLabel->setText(QString::number(count.toInt()+1));
     }
     if(hasWon()){
         palette.setColor(QPalette::Window, Qt::green);
@@ -64,6 +77,31 @@ void PuzzleGame::startOver()
         }
     palette.setColor(QPalette::Window, Qt::white);
     this->setPalette(palette);
+    int score = ui->movesNumberLabel->text().toInt();
+    bestScore = (bestScore > score) ? score : bestScore;
+    ui->bestScoreLabel->setText(QString::number(bestScore));
+    ui->movesNumberLabel->setText(QString::number(0));
+
+}
+
+void PuzzleGame::setBoardSize(int index)
+{
+    switch (index) {
+    case 0:
+        boardW = 3;
+        boardH = 3;
+        break;
+    case 1:
+        boardW = 4;
+        boardH = 4;
+        break;
+    case 2:
+        boardW = 5;
+        boardH = 5;
+        break;
+    default:
+        break;
+    }
 
 }
 
@@ -117,25 +155,14 @@ void PuzzleGame::createBoard()
                 button->setText(QString(""));
             connect(button, &QPushButton::clicked, [=]()->void{play(i, j);});
 
-            QPixmap pixmap;
-            pixmap.load("images/apple_logo.png");
-            QPalette palette;
-            palette.setBrush(QPalette::Window, QBrush(pixmap));
-//            button->setFlat(true);
-            button->setAutoFillBackground(true);
-            button->setPalette(palette);
-
             hlayout->addWidget(button);
             rowButtons.push_back(button);
         }
         buttonVlayout->addItem(hlayout);
         buttons.push_back(rowButtons);
     }
-    QPushButton* startOverButton = new QPushButton(this);
-    startOverButton->setText("Start over");
-    connect(startOverButton, &QPushButton::clicked, this, &PuzzleGame::startOver);
     mainVLayout->addItem(buttonVlayout);
-    mainVLayout->addWidget(startOverButton);
+
 }
 
 QPushButton* PuzzleGame::checkForNullButton(int row, int column)
@@ -173,3 +200,4 @@ bool PuzzleGame::hasWon()
     return true;
 
 }
+

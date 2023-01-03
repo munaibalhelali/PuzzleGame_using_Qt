@@ -28,6 +28,8 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
+
+
 if(ANDROID)
   add_library(PuzzleGame SHARED
     main.cpp
@@ -39,7 +41,8 @@ else()
     main.cpp
     puzzlegame.cpp
     puzzlegame.h
-  )
+    puzzlegame.ui
+    )
 endif()
 
 target_link_libraries(PuzzleGame PRIVATE Qt5::Widgets)

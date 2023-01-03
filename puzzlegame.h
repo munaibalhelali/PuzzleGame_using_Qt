@@ -6,6 +6,10 @@
 #include <vector>
 #include <QVBoxLayout>
 
+QT_BEGIN_NAMESPACE
+namespace Ui { class PuzzleGame; }
+QT_END_NAMESPACE
+
 class PuzzleGame : public QWidget
 {
     Q_OBJECT
@@ -18,7 +22,11 @@ private slots:
     void printButtonText(int row, int column);
     void play(int row, int column);
     void startOver(void);
+    void setBoardSize(int index);
+
+
 private:
+    Ui::PuzzleGame * ui;
     std::vector<std::vector<QPushButton*>> buttons;
     int boardW;
     int boardH;
@@ -30,5 +38,7 @@ private:
     QPushButton* checkForNullButton(int row, int column);
     bool hasWon(void);
     QString emptySymbol;
+
+    int bestScore;
 };
 #endif // PUZZLEGAME_H
