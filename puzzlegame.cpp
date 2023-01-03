@@ -7,26 +7,28 @@
 #include <QMessageBox>
 #include <opencv4/opencv2/opencv.hpp>
 #include <ui_puzzlegame.h>
-#include <startdialog.h>
 #include <QApplication>
+#include <welcomedialog.h>
+#include <QLayoutItem>
+
+void removeItems ( QLayout* layout );
 
 PuzzleGame::PuzzleGame(QWidget *parent)
     : QWidget(parent), ui(new Ui::PuzzleGame)
 {
     ui->setupUi(this);
 
+    promoteWelcomeDialog();
 
-    boardW = 3;
-    boardH = 3;
     emptySymbol = QString("");
     this->setFixedSize(500, 600);
-//    mainVLayout = new QVBoxLayout(this);
     mainVLayout = ui->gameVerticalLayout;
     createBoard();
 
     //connect startOverButton
     connect(ui->startOverButton, &QPushButton::clicked, this, &PuzzleGame::startOver);
     bestScore = 1000000;
+
 
 }
 
@@ -65,6 +67,11 @@ void PuzzleGame::play(int row, int column)
 
 void PuzzleGame::startOver()
 {
+    int score = ui->movesNumberLabel->text().toInt();
+    bestScore = (bestScore > score) ? score : bestScore;
+    ui->bestScoreLabel->setText(QString::number(bestScore));
+    ui->movesNumberLabel->setText(QString::number(0));
+
     int counter = 0;
     std::vector<int> randomContent = getRandomeBoard();
     for(auto row: buttons)
@@ -77,33 +84,25 @@ void PuzzleGame::startOver()
         }
     palette.setColor(QPalette::Window, Qt::white);
     this->setPalette(palette);
-    int score = ui->movesNumberLabel->text().toInt();
-    bestScore = (bestScore > score) ? score : bestScore;
-    ui->bestScoreLabel->setText(QString::number(bestScore));
-    ui->movesNumberLabel->setText(QString::number(0));
+
+
 
 }
 
-void PuzzleGame::setBoardSize(int index)
+void PuzzleGame::promoteWelcomeDialog()
 {
-    switch (index) {
-    case 0:
+    WelcomeDialog welcomeDialog;
+    auto ret = welcomeDialog.exec();
+    if(ret == QDialog::Accepted){
+        boardW = welcomeDialog.getBoardSize().width();
+        boardH = welcomeDialog.getBoardSize().height();
+    }else{
         boardW = 3;
         boardH = 3;
-        break;
-    case 1:
-        boardW = 4;
-        boardH = 4;
-        break;
-    case 2:
-        boardW = 5;
-        boardH = 5;
-        break;
-    default:
-        break;
     }
 
 }
+
 
 std::vector<int> PuzzleGame::getRandomeBoard(){
 
@@ -135,11 +134,10 @@ void PuzzleGame::createBoard()
 {
     int buttonW = this->width()/boardW;
     int buttonH = buttonW;
-
+    qDebug()<<"in createBoard";
     QVBoxLayout* buttonVlayout = new QVBoxLayout();
 
-//    std::vector<int> buttonText = getRandomeBoard();
-    std::vector<int> buttonText{1, 2, 3, 4, 5, 6, 7, 0, 8};
+    std::vector<int> buttonText = getRandomeBoard();
 
     for(int i = 0; i < boardH; i++){
         QHBoxLayout* hlayout = new QHBoxLayout();
@@ -154,7 +152,7 @@ void PuzzleGame::createBoard()
             else
                 button->setText(QString(""));
             connect(button, &QPushButton::clicked, [=]()->void{play(i, j);});
-
+//            button->setStyleSheet("border-image:url(:/background/images/img_1.png)");
             hlayout->addWidget(button);
             rowButtons.push_back(button);
         }
@@ -201,3 +199,17 @@ bool PuzzleGame::hasWon()
 
 }
 
+void removeItems ( QLayout* layout )
+{
+    QLayoutItem* child;
+    while ( layout->count() != 0 ) {
+        child = layout->takeAt ( 0 );
+        if ( child->layout() != 0 ) {
+            removeItems ( child->layout() );
+        } else if ( child->widget() != 0 ) {
+            delete child->widget();
+        }
+
+        delete child;
+    }
+}

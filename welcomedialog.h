@@ -2,6 +2,7 @@
 #define WELCOMEDIALOG_H
 
 #include <QDialog>
+#include <QSize>
 
 namespace Ui {
 class WelcomeDialog;
@@ -15,8 +16,16 @@ public:
     explicit WelcomeDialog(QWidget *parent = nullptr);
     ~WelcomeDialog();
 
+    QSize getBoardSize() const;
+
+private slots:
+    void on_confirmButton_clicked();
+
+    void on_cancelButton_clicked();
+
 private:
     Ui::WelcomeDialog *ui;
+    QSize boardSize;
 };
 
 #endif // WELCOMEDIALOG_H

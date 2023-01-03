@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>WelcomeDialog</class>
  <widget class="QDialog" name="WelcomeDialog">
@@ -5,13 +6,119 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>315</width>
+    <height>203</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Welcome to PuzzleGame</string>
   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <family>Serif</family>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Welcome to PuzzleGame</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Choose board size: </string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="boardSizeComboBox">
+     <item>
+      <property name="text">
+       <string>3x3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>4x4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>5x5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>6x6</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>7x7</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>8x8</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>9x9</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>10x10</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="confirmButton">
+       <property name="text">
+        <string>Confirm</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

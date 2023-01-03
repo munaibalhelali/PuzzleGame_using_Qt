@@ -42,6 +42,11 @@ else()
     puzzlegame.cpp
     puzzlegame.h
     puzzlegame.ui
+
+    welcomedialog.cpp
+    welcomedialog.h
+    welcomedialog.ui
+    images.qrc
     )
 endif()
 

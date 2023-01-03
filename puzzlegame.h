@@ -22,8 +22,7 @@ private slots:
     void printButtonText(int row, int column);
     void play(int row, int column);
     void startOver(void);
-    void setBoardSize(int index);
-
+    void promoteWelcomeDialog();
 
 private:
     Ui::PuzzleGame * ui;
