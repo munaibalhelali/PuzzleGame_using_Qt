@@ -17,4 +17,4 @@ In the main game dialog, the player can move the the empty tile around to reorde
 ![hint](images/hint.png)
 
 ## Build and Run
-To build and run this game, Qt Creator is needed. The game was build using Qt5. 
+To build and run this game, Qt Creator is needed. The game was built using Qt5. 
