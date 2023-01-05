@@ -1,4 +1,6 @@
-# PuzzleGame_using_Qt
+# PuzzleGame using Qt
+## Description
+
 This is a puzzle game developed in the Qt framework. The game includes three interfaces:
     - The welcoming dialog
     - The main game dialg
@@ -13,3 +15,6 @@ In the main game dialog, the player can move the the empty tile around to reorde
 ![3x3 main dialog](images/3x3board_with_image.png)
 ![6x6 main dialog](images/6x6board_with_image.png)
 ![hint](images/hint.png)
+
+## Build and Run
+To build and run this game, Qt Creator is needed. The game was build using Qt5. 
