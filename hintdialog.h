@@ -13,7 +13,13 @@ class HintDialog : public QDialog
 
 public:
     explicit HintDialog(QWidget *parent = nullptr);
+    explicit HintDialog(QWidget *parent = nullptr, QString imageName = "");
     ~HintDialog();
+
+    void showHint(QString imageName);
+
+private slots:
+    void on_okButton_clicked();
 
 private:
     Ui::HintDialog *ui;

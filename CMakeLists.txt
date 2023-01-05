@@ -47,6 +47,10 @@ else()
     welcomedialog.h
     welcomedialog.ui
     images.qrc
+
+    hintdialog.cpp
+    hintdialog.h
+    hintdialog.ui
     )
 endif()
 

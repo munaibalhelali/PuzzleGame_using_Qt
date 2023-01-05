@@ -12,37 +12,52 @@
 #include <QLayoutItem>
 #include <QImage>
 #include <QDir>
+#include "hintdialog.h"
+#include <QMessageBox>
 
 void removeItems ( QLayout* layout );
 
 QImage createSubImage(QImage* image, const QRect & rect);
 
 PuzzleGame::PuzzleGame(QWidget *parent)
-    : QWidget(parent), ui(new Ui::PuzzleGame)
+    : QDialog(parent), ui(new Ui::PuzzleGame)
 {
     ui->setupUi(this);
-    imageMode = false;
-    promoteWelcomeDialog();
 
-    emptySymbol = QString("");
-    this->setFixedSize(500, 600);
-    image.load(":/background/images/img_1.png");
-    image = image.scaled(this->size(), Qt::IgnoreAspectRatio);
+    imageMode = false;
+    imageName = "luffy.png";
+    boardH = 3;
+    boardW = 3;
+
+    emptySymbol = "";
+    emptyButtonIconName = "empty_button_chess.png";
+
+    this->setFixedSize(800, 900);
 
     mainVLayout = ui->gameVerticalLayout;
-    createBoard();
 
     //connect startOverButton
     connect(ui->startOverButton, &QPushButton::clicked, this, &PuzzleGame::startOver);
     bestScore = 1000000;
-    if(imageMode)
-        editImage();
+
+    //disable hint in text mode
+    ui->hintButton->setEnabled(imageMode);
 
 
 }
 
 PuzzleGame::~PuzzleGame()
 {
+}
+
+void PuzzleGame::setupUi()
+{
+    createBoard();
+    if(imageMode){
+        image.load(":/background/images/"+imageName);
+        image = image.scaled(this->size(), Qt::IgnoreAspectRatio);
+        editImage();
+    }
 }
 
 void PuzzleGame::printButtonText(int row, int column)
@@ -93,6 +108,10 @@ void PuzzleGame::play(int row, int column)
 
 void PuzzleGame::startOver()
 {
+    auto ret = QMessageBox::question(this, "Restart game?", "Are you sure?", QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
+    if(ret == QMessageBox::No){
+        return;
+    }
     int score = ui->movesNumberLabel->text().toInt();
     bestScore = (bestScore > score) ? score : bestScore;
     ui->bestScoreLabel->setText(QString::number(bestScore));
@@ -131,20 +150,6 @@ void PuzzleGame::startOver()
 
 }
 
-void PuzzleGame::promoteWelcomeDialog()
-{
-    WelcomeDialog welcomeDialog;
-    auto ret = welcomeDialog.exec();
-    if(ret == QDialog::Accepted){
-        boardW = welcomeDialog.getBoardSize().width();
-        boardH = welcomeDialog.getBoardSize().height();
-        imageMode = welcomeDialog.getImageMode();
-    }else{
-        boardW = 3;
-        boardH = 3;
-    }
-
-}
 
 
 std::vector<int> PuzzleGame::getRandomeBoard(){
@@ -177,18 +182,22 @@ void PuzzleGame::createBoard()
 {
     int buttonW = this->width()/boardW;
     int buttonH = buttonW;
-    //qDebug()<<"in createBoard";
+
     QVBoxLayout* buttonVlayout = new QVBoxLayout();
 
     std::vector<int> buttonText = getRandomeBoard();
+//    std::vector<int> buttonText= {1, 2, 3, 4, 5, 6, 7, 0, 8};
 
     for(int i = 0; i < boardH; i++){
         QHBoxLayout* hlayout = new QHBoxLayout();
         std::vector<QPushButton*> rowButtons;
+
         for(int j = 0; j < boardW; j++){
             QPushButton* button = new QPushButton(this);
             button->setFixedSize(buttonW, buttonH);
+
             QString buttonName = QString::number(buttonText[i*boardW+j]);
+
             if(buttonName != QString::number(0)){
                 if(!imageMode)
                     button->setText(buttonName);
@@ -198,8 +207,10 @@ void PuzzleGame::createBoard()
                 button->setText(QString(""));
                 button->setAccessibleName(QString(""));
             }
+
+            //connect each button to the play slot
             connect(button, &QPushButton::clicked, [=]()->void{play(i, j);});
-//            button->setStyleSheet("border-image:url(:/background/images/img_1.png)");
+
             hlayout->addWidget(button);
             rowButtons.push_back(button);
         }
@@ -221,7 +232,6 @@ QPushButton* PuzzleGame::checkForNullButton(int row, int column)
                     return buttons[rowIdxs[i]][columnIdxs[i]];
                 }
             }else{
-                //qDebug()<<"accessibleName: "<<buttons[rowIdxs[i]][columnIdxs[i]]->accessibleName() ;
                 if(buttons[rowIdxs[i]][columnIdxs[i]]->accessibleName() == emptySymbol){
                     return buttons[rowIdxs[i]][columnIdxs[i]];
                 }
@@ -283,6 +293,7 @@ void PuzzleGame::editImage()
     int w = image.width()/boardW;
     int h = image.height()/boardH;
     QDir currDir = QDir::current();
+
     if (currDir.cd("subImages")){
         currDir.removeRecursively();
         currDir.cdUp();
@@ -290,34 +301,31 @@ void PuzzleGame::editImage()
     }else{
         currDir.mkdir("subImages");
     }
-    //qDebug()<<currDir.absolutePath();
-    QList<QList<QImage>> subImages;
+
+
     int counter = 1;
     for(int hi = 0; hi < boardH; hi++){
-        QList<QImage> rowImages;
         x = 0;
         for(int wi = 0; wi < boardW; wi++){
             QImage subImg = createSubImage(&image, QRect(x, y, w, h));
-            rowImages.append(subImg);
-            subImg.save("subImages/luffy_"+QString::number(counter)+".png");
-            //qDebug() << subImg.width()<<", "<< subImg.height();
+            subImg.save("subImages/sub_"+QString::number(counter)+".png");
             x += w;
             counter++;
         }
         y += h;
-        subImages.append(rowImages);
     }
-    //qDebug()<<"subImages: "<<subImages.size()<<", "<<subImages[0].size();
+
     for(int row = 0; row < buttons.size(); row++)
         for(int column = 0; column < buttons[0].size(); column++){
             QPushButton* button = buttons[row][column];
-            QString imgPath = "subImages/luffy_"+button->accessibleName()+".png";
+            QString imgPath = "subImages/sub_"+button->accessibleName()+".png";
             QPixmap pixmap;
-            if(button->accessibleName() == "")
-                pixmap.load(":/background/images/white_background.png");
-            else
+            if(button->accessibleName() == ""){
+                pixmap.load(":/background/images/"+emptyButtonIconName);
+                pixmap = pixmap.scaled(button->width(), button->height());
+            }else
                 pixmap.load(imgPath);
-            //qDebug()<<"Pixmap size: "<<pixmap.size();
+
             QIcon icon(pixmap);
             button->setIcon(icon);
             button->setIconSize(pixmap.size());
@@ -331,3 +339,45 @@ QImage createSubImage(QImage* image, const QRect & rect) {
                   image->bytesPerLine(), image->format());
 }
 
+
+void PuzzleGame::on_hintButton_clicked()
+{
+    HintDialog* hint = new HintDialog(this, imageName);
+    hint->exec();
+}
+
+bool PuzzleGame::getImageMode() const
+{
+    return imageMode;
+}
+
+void PuzzleGame::setImageMode(bool value)
+{
+    imageMode = value;
+    ui->hintButton->setEnabled(imageMode);
+
+}
+
+void PuzzleGame::setBoardSize(QSize boardSize)
+{
+    boardW = boardSize.width();
+    boardH = boardSize.height();
+}
+
+QString PuzzleGame::getImageName() const
+{
+    return imageName;
+}
+
+void PuzzleGame::setImageName(const QString &value)
+{
+    imageName = value;
+}
+
+void PuzzleGame::on_closeButton_clicked()
+{
+   int ret = QMessageBox::warning(this, "End game", "Are you sure?", QMessageBox::Yes, QMessageBox::Cancel);
+   if(ret == QMessageBox::Yes){
+       accept();
+   }
+}

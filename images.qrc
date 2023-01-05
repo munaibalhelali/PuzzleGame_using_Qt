@@ -1,6 +1,11 @@
 <RCC>
     <qresource prefix="/background">
-        <file>images/img_1.png</file>
+        <file>images/luffy.png</file>
         <file>images/white_background.png</file>
+        <file>images/empty_button.png</file>
+        <file>images/lion.jpeg</file>
+        <file>images/nature.jpeg</file>
+        <file>images/empty_button_pattern.jpeg</file>
+        <file>images/empty_button_chess.png</file>
     </qresource>
 </RCC>

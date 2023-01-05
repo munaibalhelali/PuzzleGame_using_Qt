@@ -87,11 +87,29 @@
     <layout class="QVBoxLayout" name="gameVerticalLayout"/>
    </item>
    <item>
-    <widget class="QPushButton" name="startOverButton">
-     <property name="text">
-      <string>Start Over</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="startOverButton">
+       <property name="text">
+        <string>Start Over</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="closeButton">
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="hintButton">
+       <property name="text">
+        <string>Hint</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
