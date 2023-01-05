@@ -24,6 +24,7 @@ private slots:
     void startOver(void);
     void promoteWelcomeDialog();
 
+
 private:
     Ui::PuzzleGame * ui;
     std::vector<std::vector<QPushButton*>> buttons;
@@ -31,12 +32,16 @@ private:
     int boardH;
     QVBoxLayout * mainVLayout;
     QPalette palette;
+    QString emptySymbol;
+    QImage image;
+    bool imageMode;
 
     std::vector<int> getRandomeBoard();
     void createBoard(void);
     QPushButton* checkForNullButton(int row, int column);
     bool hasWon(void);
-    QString emptySymbol;
+    void editImage();
+
 
     int bestScore;
 };

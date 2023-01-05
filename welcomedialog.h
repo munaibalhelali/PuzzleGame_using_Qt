@@ -17,6 +17,7 @@ public:
     ~WelcomeDialog();
 
     QSize getBoardSize() const;
+    bool getImageMode();
 
 private slots:
     void on_confirmButton_clicked();
@@ -26,6 +27,7 @@ private slots:
 private:
     Ui::WelcomeDialog *ui;
     QSize boardSize;
+    bool imageMode;
 };
 
 #endif // WELCOMEDIALOG_H

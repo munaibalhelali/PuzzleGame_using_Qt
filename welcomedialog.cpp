@@ -6,6 +6,7 @@ WelcomeDialog::WelcomeDialog(QWidget *parent) :
     ui(new Ui::WelcomeDialog)
 {
     ui->setupUi(this);
+    ui->numbersRadioButton->setChecked(true);
 }
 
 WelcomeDialog::~WelcomeDialog()
@@ -19,6 +20,10 @@ void WelcomeDialog::on_confirmButton_clicked()
     QList<QSize> availableSizes;
     availableSizes << QSize(3,3) << QSize(4,4) << QSize(5,5) << QSize(6,6) << QSize(7,7) << QSize(8,8) << QSize(9,9) << QSize(10,10);
     boardSize = availableSizes[index];
+    if(ui->imageRadioButton->isChecked())
+        imageMode = true;
+    else if(ui->numbersRadioButton->isChecked())
+        imageMode = false;
     accept();
 }
 
@@ -30,5 +35,10 @@ void WelcomeDialog::on_cancelButton_clicked()
 QSize WelcomeDialog::getBoardSize() const
 {
     return boardSize;
+}
+
+bool WelcomeDialog::getImageMode()
+{
+    return imageMode;
 }
 

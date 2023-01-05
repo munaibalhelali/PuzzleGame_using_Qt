@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>315</width>
-    <height>203</height>
+    <width>340</width>
+    <height>299</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Welcome to PuzzleGame</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="label">
      <property name="font">
@@ -31,61 +31,102 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_2">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Choose board size: </string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QComboBox" name="boardSizeComboBox">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <property name="text">
-       <string>3x3</string>
-      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Board size: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="boardSizeComboBox">
+         <item>
+          <property name="text">
+           <string>3x3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>4x4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>5x5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>6x6</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>7x7</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>8x8</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>9x9</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>10x10</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <property name="text">
-       <string>4x4</string>
-      </property>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Board type</string>
+       </property>
+       <widget class="QRadioButton" name="imageRadioButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>112</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Image</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="numbersRadioButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>50</y>
+          <width>112</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Numbers</string>
+        </property>
+       </widget>
+      </widget>
      </item>
-     <item>
-      <property name="text">
-       <string>5x5</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>6x6</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>7x7</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>8x8</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>9x9</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>10x10</string>
-      </property>
-     </item>
-    </widget>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
