@@ -18,3 +18,5 @@ In the main game dialog, the player can move the the empty tile around to reorde
 
 ## Build and Run
 To build and run this game, Qt Creator is needed. The game was built using Qt5. 
+
+## Disclaimer: I do not own the copy rights of any of the images used in this project. 
