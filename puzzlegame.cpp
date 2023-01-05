@@ -1,19 +1,20 @@
 #include "puzzlegame.h"
+#include "hintdialog.h"
+#include <welcomedialog.h>
+
+#include <ui_puzzlegame.h>
+
 #include <QLayout>
 #include <QRect>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QDebug>
 #include <QMessageBox>
-#include <opencv4/opencv2/opencv.hpp>
-#include <ui_puzzlegame.h>
 #include <QApplication>
-#include <welcomedialog.h>
 #include <QLayoutItem>
 #include <QImage>
 #include <QDir>
-#include "hintdialog.h"
-#include <QMessageBox>
+
 
 void removeItems ( QLayout* layout );
 

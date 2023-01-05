@@ -25,10 +25,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #endif()
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
-find_package(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIRS})
-
-
 
 if(ANDROID)
   add_library(PuzzleGame SHARED
@@ -53,5 +49,4 @@ else()
     hintdialog.ui
     )
 endif()
-
 target_link_libraries(PuzzleGame PRIVATE Qt5::Widgets)
